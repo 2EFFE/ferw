@@ -5,13 +5,7 @@
 //  Created by Fabio Festa on 14/11/23.
 //
 import SwiftUI
-
-struct Note: Identifiable, Codable, Equatable {
-    var id = UUID()
-    var title: String
-    var content: String
-}
-
+import LocalAuthentication
 
 
 class NoteData: ObservableObject {
@@ -46,170 +40,313 @@ class NoteData: ObservableObject {
 }
 
 
-//INZIO CODICEEEEEEEEEEEEEEEEEEEEEEEEEE
+
+
+
+
+
 struct TextEditorView: View {
+ 
+
     @Binding var note: Note
+    @State private var selectedNote: Note?
+
+
+   
+      @State private var noteTitle: String
+      @State private var noteContent: String
+    
+    
+   
+    
+    init(note: Binding<Note>) {
+           _note = note
+           _noteTitle = State(initialValue: note.wrappedValue.title)
+           _noteContent = State(initialValue: note.wrappedValue.content)
+       }
 
     var body: some View {
-        VStack {
-            TextEditor(text: $note.content)
-                .frame(minHeight: 50)
-                .padding()
-        }
-        .navigationTitle(note.title)
-    }
-}
+        
+        
+        
+           VStack {
+               TextField("Title", text: $noteTitle)
+                   .padding()
+               
+               
+               TextEditor(text: $noteContent)
+                   .frame(minHeight: 30)
+                   .padding()
+               
+                          
+                         
+           }
+           .navigationTitle(note.title)
+           .onAppear {
+               noteTitle = note.title
+               noteContent = note.content
+              
+              
+           }
+           .onDisappear {
+               note.title = noteTitle
+               note.content = noteContent
+              
+           }
+        
+       }
+    
+   
+  }
+   
+    
+
 
 
 struct ContentView: View {
     @EnvironmentObject var noteData: NoteData
-    @State private var isEditingNote = false
-    @State private var selectedNote: Note?
-    @State private var isGalleryPresented = false
-    @State private var noteTitle = ""
-    @State private var noteContent = ""
-    @State private var isEditing = false
+     @State private var noteTitle = ""
+     @State private var noteContent = ""
+     @State private var isEditing = false
+     @State private var selectedNote: Note?
+     @State private var isDetailViewPresented = false
+     @State private var searchText = ""
+    
+    @State private var isFaceIDAuthenticated = false
 
-    var body: some View {
-        NavigationView {
-            
-            
-            
-            ZStack {
-                
-                VStack{
-                    
-                    Text("Fewr")
-                        
-                        .font(Font.custom("SF Pro", size: 50))
-                    
-                    Text("your friendly Notebook")
-                    
-                        .font(Font.custom("SF Pro", size: 20))
-                    
-                    NavigationLink(destination: Gallery().environmentObject(noteData)) {
-                        Text("Create Note")
-                            .font(Font.custom("SF Pro", size: 30))
-                            .multilineTextAlignment(.center)
-                    }.padding(.top)
-                        
-                        
-                    
-                }.padding(.bottom, 550)
-                
-                
-                
-                    
-                    Image("image")
-                        .resizable()
-                        .scaledToFill()
-                        .edgesIgnoringSafeArea(.all)
-                        .opacity(0.2)
-                    
-                
-                    
-                VStack{
-                    
-                    
-                    
-                }
-                
-              
-                           
-                        
-                      
-                        
-                        
-                        
-                    
-                
-            }
-        }
+    
+    
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "MM/dd/yyyy HH:mm"
+        return formatter
     }
-
-    func deleteNote(at offsets: IndexSet) {
-        noteData.notes.remove(atOffsets: offsets)
-    }
-}
-
-
-
-
-struct Gallery: View {
-    @EnvironmentObject var noteData: NoteData
-        @State private var noteTitle = ""
-        @State private var noteContent = ""
-        @State private var isEditing = false
-        @State private var isEditingNote = false
-        @State private var selectedNote: Note?
-        @State private var isDetailViewPresented = false
+    
+   
     
     var body: some View {
         
        
-    
-            Form {
+            
+            NavigationView {
                 
-                Section(header: Text("Create Note")) {
-                    TextField("Title", text: $noteTitle)
-                    TextEditor(text: $noteContent)
-                        .frame(minHeight: 50)
-                        .padding()
-                    Button(action: createNote) {
-                        Text("Create")
-                            .padding(10)
-                            .font(Font.custom("SF Pro", size: 20))
+             
+             
+           
+                                                       
+                
+            Form{
+                
+             
+                    
+                VStack{
+                    
+                    
+                    ScrollView{
                         
-                     
-                    }
-                }
-                
-                Section(header: Text("Your Note")) {
-                    ForEach(noteData.notes) { note in
-                        NavigationLink(destination: Text(note.content).navigationTitle(note.title)) {
-                            Text(note.title)
-                                .listStyle(InsetGroupedListStyle())
-                                               .navigationTitle("Notes")
-                                               .navigationBarItems(trailing: EditButton())
+                        Text("")
+                            .navigationBarTitle("Notes", displayMode: .large)
+                          
+                            
+                          
+                        
+                        
+                        NavigationLink(destination: Gallery().environmentObject(noteData)) {
+                            Rectangle()
+                                .foregroundColor(.gray.opacity(0))
+                                .frame(width: 330, height: 50)
+                                .cornerRadius(10)
+                            
+                            
+                                .overlay(
+                                    
+                                    HStack{
+                                        
+                                        
+                                     
+                                        
+                                        Text("New")
+                                            .font(Font.custom("Helvetica-Bold", size: 30))
+                                            .foregroundColor(.yellow)
+                                            .padding(.leading, 5)
+                                        
+                                        
+                                        
+                                        Image(systemName: "folder.badge.plus")
+                                            .foregroundColor(.yellow)
+                                            .imageScale(.large)
+                                    }
+                                )
+                             
                         }
-                    }
-                    .onDelete(perform: deleteNote)
+                        
+                    }//scroll view}
                 }
-            }
-            .listStyle(GroupedListStyle())
-            .navigationTitle("Folder")
-            
-       
-        }
+                
+                
+             
+                    
+                Section(header: Text("Your Note").foregroundStyle(.white).opacity(0.7) .font(Font.custom("Helvetica-Bold", size: 14))) {
+                    
+                    
+                    
+                    HStack{
+                        Image(systemName: "magnifyingglass")
+                            .foregroundStyle(.yellow)
+                        TextField("Search...", text: $searchText)
+                        
+                        
+                    }
+                    
+                   
+                        ForEach(noteData.notes.filter {
+                            searchText.isEmpty ||
+                            $0.title.localizedCaseInsensitiveContains(searchText)
+                        }) { note in
+                            NavigationLink(destination: noteDetailView(note: note)) {
+                                
+                                
+                                
+                                HStack {
+                                  
+                                      
+                                    
+                                    Image(systemName: "folder")
+                                        .foregroundColor(.yellow)
+                                        .imageScale(.large)
+                                        .padding(.leading, -10.0)
+                                    
+                                    
+                                    VStack(alignment: .leading) {
+                                        Text(note.title)
+                                        Text("Created on: \(note.creationDate)")
+                                            .font(.caption)
+                                            .foregroundColor(.gray)
+                                    }
+                                    Spacer()
+                                    if isEditing {
+                                        Button(action: {
+                                            startEditing(note: note)
+                                        }) {
+                                            Image(systemName: "pencil.circle.fill")
+                                                .foregroundColor(.yellow)
+                                        }
+                                        Button(action: {
+                                            deleteSelectedNote()
+                                        }) {
+                                            
+                                        }
+                                    }
+                                }
+                            }
+                            
+                        }
+                        .onDelete(perform: deleteNote)
+                    
+                    }
+                
+                }
+         
+                        
+            }//navigationlink
+           
+        }//someview
     
-
     
-    func createNote() {
-        // Assegna automaticamente "Nota" come titolo se il titolo è vuoto
-        let newNoteTitle = noteTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Nota" : noteTitle
-        
-        if isEditing, let index = noteData.notes.firstIndex(where: { $0.id == selectedNote?.id }) {
-            // Modifica la nota esistente
-            noteData.notes[index].title = newNoteTitle
-            noteData.notes[index].content = noteContent
-            isEditing = false // Esci dalla modalità di modifica
-        } else {
-            
-            
-            let newNote = Note(title: newNoteTitle, content: noteContent)
-            noteData.notes.append(newNote)
-            noteTitle = ""
-            noteContent = ""
-        }}
+    func noteDetailView(note: Note) -> some View {
+           if isFaceIDAuthenticated {
+               return AnyView(TextEditorView(note: $noteData.notes[noteData.notes.firstIndex(of: note)!]).navigationBarBackButtonHidden(true))
+           } else {
+               return AnyView(FaceIDAuthenticationVieww(isAuthenticated: $isFaceIDAuthenticated, onSuccess: {
+                   // Chiamato quando l'autenticazione è riuscita
+                   isFaceIDAuthenticated = true
+               }))
+           }
+       }
+    
+    func startEditing(note: Note) {
+        selectedNote = note
+    }
 
     func deleteNote(at offsets: IndexSet) {
         noteData.notes.remove(atOffsets: offsets)
+        selectedNote = nil // Aggiunto per deselezionare la nota dopo l'eliminazione
+    }
+
+    func deleteSelectedNote() {
+        if let selectedNote = selectedNote,
+           let index = noteData.notes.firstIndex(where: { $0.id == selectedNote.id }) {
+            deleteNote(at: IndexSet([index]))
+        }
+    }
+    
+    func deleteNoteManually() {
+        if let selectedNote = selectedNote,
+           let index = noteData.notes.firstIndex(where: { $0.id == selectedNote.id }) {
+            deleteNote(at: IndexSet([index]))
+         
+        }
+    }
+        
+    
+    }//contentview
+
+
+    
+struct FaceIDAuthenticationVieww: View {
+    @Binding var isAuthenticated: Bool
+    var onSuccess: () -> Void
+
+    var body: some View {
+        // Puoi personalizzare la tua interfaccia per l'autenticazione Face ID qui
+        VStack {
+            Text("Face ID Authentication")
+                .font(.title)
+                .padding()
+
+            Button("Authenticate") {
+                authenticateWithFaceID()
+            }
+        }
+        .padding()
+    }
+
+    private func authenticateWithFaceID() {
+        let context = LAContext()
+
+        var error: NSError?
+
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Authenticate to access the note."
+
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+                DispatchQueue.main.async {
+                    if success {
+                        isAuthenticated = true
+                        onSuccess()
+                    } else {
+                        // L'autenticazione Face ID non è riuscita
+                        print("Face ID Authentication failed: \(authenticationError?.localizedDescription ?? "Unknown error")")
+                    }
+                }
+            }
+        } else {
+            // Il dispositivo non supporta Face ID o Touch ID
+            print("Biometric authentication not available: \(error?.localizedDescription ?? "Unknown error")")
+        }
     }
 }
+    
+
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView().environmentObject(NoteData())
     }
 }
+
+
 

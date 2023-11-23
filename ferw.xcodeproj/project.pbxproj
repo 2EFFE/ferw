@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D37A98C2B0A8C9B00505D87 /* Helvetica-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6D37A98B2B0A8C9B00505D87 /* Helvetica-Bold.ttf */; };
+		6D3869142B0D5BD1003D1C2B /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3869132B0D5BD1003D1C2B /* Note.swift */; };
+		6D3869182B0D5DC8003D1C2B /* Gallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3869172B0D5DC8003D1C2B /* Gallery.swift */; };
 		6DBEF0842B041D9F00F3DDD0 /* ferwApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBEF0832B041D9F00F3DDD0 /* ferwApp.swift */; };
 		6DBEF0862B041D9F00F3DDD0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBEF0852B041D9F00F3DDD0 /* ContentView.swift */; };
 		6DBEF0882B041DA000F3DDD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DBEF0872B041DA000F3DDD0 /* Assets.xcassets */; };
@@ -14,6 +17,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6D37A98A2B0A89A700505D87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		6D37A98B2B0A8C9B00505D87 /* Helvetica-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Helvetica-Bold.ttf"; sourceTree = "<group>"; };
+		6D3869132B0D5BD1003D1C2B /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		6D3869172B0D5DC8003D1C2B /* Gallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gallery.swift; sourceTree = "<group>"; };
 		6DBEF0802B041D9F00F3DDD0 /* ferw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ferw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DBEF0832B041D9F00F3DDD0 /* ferwApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ferwApp.swift; sourceTree = "<group>"; };
 		6DBEF0852B041D9F00F3DDD0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -32,6 +39,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D37A9872B0A893E00505D87 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				6D37A98B2B0A8C9B00505D87 /* Helvetica-Bold.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		6DBEF0772B041D9F00F3DDD0 = {
 			isa = PBXGroup;
 			children = (
@@ -51,8 +66,12 @@
 		6DBEF0822B041D9F00F3DDD0 /* ferw */ = {
 			isa = PBXGroup;
 			children = (
+				6D37A98A2B0A89A700505D87 /* Info.plist */,
+				6D37A9872B0A893E00505D87 /* Font */,
 				6DBEF0832B041D9F00F3DDD0 /* ferwApp.swift */,
+				6D3869132B0D5BD1003D1C2B /* Note.swift */,
 				6DBEF0852B041D9F00F3DDD0 /* ContentView.swift */,
+				6D3869172B0D5DC8003D1C2B /* Gallery.swift */,
 				6DBEF0872B041DA000F3DDD0 /* Assets.xcassets */,
 				6DBEF0892B041DA000F3DDD0 /* Preview Content */,
 			);
@@ -125,6 +144,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D37A98C2B0A8C9B00505D87 /* Helvetica-Bold.ttf in Resources */,
 				6DBEF08B2B041DA000F3DDD0 /* Preview Assets.xcassets in Resources */,
 				6DBEF0882B041DA000F3DDD0 /* Assets.xcassets in Resources */,
 			);
@@ -137,8 +157,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D3869182B0D5DC8003D1C2B /* Gallery.swift in Sources */,
 				6DBEF0862B041D9F00F3DDD0 /* ContentView.swift in Sources */,
 				6DBEF0842B041D9F00F3DDD0 /* ferwApp.swift in Sources */,
+				6D3869142B0D5BD1003D1C2B /* Note.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,7 +297,10 @@
 				DEVELOPMENT_TEAM = WL7F853P7M;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ferw/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "we use this to unlock the phone";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -305,7 +330,10 @@
 				DEVELOPMENT_TEAM = WL7F853P7M;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ferw/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "we use this to unlock the phone";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
